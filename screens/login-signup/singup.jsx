@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import { TouchableOpacity } from 'react-native';
 
 function Signup() {
     const [email, setEmail] = useState('');
@@ -65,185 +66,58 @@ function Signup() {
 
     return (
         <View style={styles.container}>
-            <Text>Sign Up</Text>
-            <TextInput placeholder='First Name...' onChangeText={setFirstName} />
-            <TextInput placeholder='Last Name...' onChangeText={setLastName} />
-            <TextInput placeholder='Age...' onChangeText={setAge} keyboardType='numeric' />
-            <TextInput placeholder='Phone Number...' onChangeText={setPhonenumber} keyboardType='phone-pad' />
-            <TextInput placeholder='Date Of Birth...' onChangeText={setDateofbirth} />
-            <TextInput placeholder='Email...' onChangeText={setEmail} keyboardType='email-address' />
-            <TextInput placeholder='Password...' onChangeText={setPassword} secureTextEntry={true} />
-            <TextInput placeholder='Confirm Password...' onChangeText={setPassword1} secureTextEntry={true} />
-            <Button title='Sign Up' onPress={signup} />
+            <Text style={styles.Text}>Sign Up</Text>
+            <TextInput style={styles.input} placeholder='First Name...' onChangeText={setFirstName} />
+            <TextInput style={styles.input} placeholder='Last Name...' onChangeText={setLastName} />
+            <TextInput style={styles.input} placeholder='Age...' onChangeText={setAge} keyboardType='numeric' />
+            <TextInput style={styles.input} placeholder='Phone Number...' onChangeText={setPhonenumber} keyboardType='phone-pad' />
+            <TextInput style={styles.input} placeholder='Date Of Birth...' onChangeText={setDateofbirth} />
+            <TextInput style={styles.input} placeholder='Email...' onChangeText={setEmail} keyboardType='email-address' />
+            <TextInput style={styles.input} placeholder='Password...' onChangeText={setPassword} secureTextEntry={true} />
+            <TextInput style={styles.input} placeholder='Confirm Password...' onChangeText={setPassword1} secureTextEntry={true} />
+            <TouchableOpacity style={styles.button} onPress={signup}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    Text: {
+        color: '#3090c9',
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'Poppins_400Regular',
+        margin: 10
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 100,
-        marginBottom: 100,
-        borderWidth: 5,
+        padding: 30,
+        borderWidth: 1,
         borderColor: '#3090c9',
-        paddingBottom: 30,
-        width: 500,
-        height: 700,
-        borderRadius: 25,
     },
-    loginText: {
-        height: 70,
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginTop: 30,
-        position: 'relative',
-    },
-    loginTextH2: {
-        color: '#fff',
-        fontSize: 40,
-        fontWeight: '700',
-    },
-    underlineSignup: {
-        position: 'absolute',
-        height: 3,
-        backgroundColor: '#3090c9',
+    input: {
         width: '100%',
-        marginVertical: 10,
-    },
-    inputBox: {
-        margin: 'auto',
-        marginTop: 20,
-        width: '100%',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-    firstNameLastName: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: -10,
-    },
-    flInput: {
-        width: 150,
-        height: 45,
-        borderRadius: 10,
-        backgroundColor: '#eaeaea',
-        fontSize: 22,
-        fontWeight: '300',
-        marginTop: 5,
-        paddingLeft: 7,
-        color: 'black',
-    },
-    h3: {
-        color: '#fff',
-        fontSize: 26,
-        fontWeight: '400',
-    },
-    ageBox: {
-        marginTop: -20,
-        marginLeft: 70,
-    },
-    ageBoxInput: {
-        width: 150,
-        height: 45,
-        borderRadius: 10,
-        backgroundColor: '#eaeaea',
-        fontSize: 22,
-        fontWeight: '300',
-        marginTop: 5,
-        paddingLeft: 5,
-    },
-    dateBoxInput: {
-        width: 150,
-        height: 45,
-        borderRadius: 10,
-        backgroundColor: '#eaeaea',
-        fontSize: 22,
-        fontWeight: '300',
-        marginTop: 5,
-        paddingLeft: 5,
-        color: 'black',
-    },
-    emailBox: {
-        marginTop: 10,
-        position: 'relative',
-    },
-    passwordBox: {
-        marginTop: 10,
-        position: 'relative',
-    },
-    emailInput: {
-        width: '100%',
-        height: 45,
-        borderRadius: 10,
-        backgroundColor: '#eaeaea',
-        fontSize: 22,
-        fontWeight: '300',
-        marginTop: 5,
-        paddingLeft: 5,
-        color: 'black',
-    },
-    passwordInput: {
-        width: '100%',
-        height: 50,
-        borderRadius: 10,
-        backgroundColor: '#eaeaea',
-        fontSize: 22,
-        fontWeight: '300',
-        marginTop: 10,
-        paddingLeft: 5,
+        height: 40,
+        borderColor: '#3090c9',
+        borderWidth: 1,
+        borderRadius: 5,
         marginBottom: 10,
-        color: '#000',
+        paddingLeft: 10,
     },
-    emailIcon: {
-        position: 'absolute',
-        right: '-10%',
-        top: '23%',
-        fontSize: 28,
-        alignItems: 'center',
+    button: {
+        width: '100%',
+        height: 40,
+        backgroundColor: '#3090c9',
         justifyContent: 'center',
-        color: 'white',
-    },
-    passwordIcon: {
-        position: 'absolute',
-        right: '-10%',
-        top: '33%',
-        fontSize: 28,
         alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
+        borderRadius: 5,
     },
-    loginButtonBox: {
-        borderRadius: 15,
-        textAlign: 'center',
-        marginVertical: '5%',
-    },
-    loginButtonBoxButton: {
-        height: 70,
-        width: 170,
-        backgroundColor: 'transparent',
+    buttonText: {
         color: '#fff',
-        textAlign: 'center',
-        fontWeight: '700',
-        fontSize: 32,
-        borderWidth: 4,
-        borderRadius: 15,
-    },
-    loginLink: {
-        flexDirection: 'row',
-        marginTop: 10,
-    },
-    loginLinkP: {
-        fontSize: 18,
-        color: '#fff',
-        fontWeight: '400',
-    },
-    loginLinkReference: {
-        fontSize: 18,
-        fontWeight: '400',
-        fontStyle: 'italic',
+        fontSize: 16,
     },
 });
 

@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useFonts,Poppins_400Regular } from '@expo-google-fonts/poppins';
+import { TouchableOpacity } from 'react-native';
 
 
 function Login() {
@@ -23,6 +25,11 @@ function Login() {
         e.preventDefault();
         login(); // Call login function if the password is valid
     };
+    let [fontsLoaded] = useFonts({
+        Poppins_400Regular,
+      });
+    
+
 
     const login = async () => {
         if (!emailRegex.test(email)) {
@@ -77,112 +84,67 @@ function Login() {
                     />
                 </View>
                 {passwordError && <Text style={{ color: 'red' }}>{passwordError}</Text>}
-                <Button title="Don't have an account ? Click here" onPress={() => navigation.navigate('Signup')} />
+                
             </View>
             <View style={styles.buttonBox}>
-                <Button title='Login' onPress={login} />
-            </View>
+            <TouchableOpacity style={styles.loginButton} onPress={login}>
+                <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.signupButton} onPress={() => navigation.navigate('Signup')}>
+                <Text style={styles.signupButtonText}>Don't have an account?</Text>
+            </TouchableOpacity>
+        </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    loginButton: {
+        backgroundColor: '#3090c9',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    loginButtonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+    signupButton: {
+        backgroundColor: '#3090c9',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    signupButtonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
     Text: {
-        color: 'black',
-        fontSize: 20,
+        color: '#3090c9',
+        fontSize: 25,
         fontWeight: 'bold',
-       
+        fontFamily:'Poppins_400Regular',
+        marginBottom: 20
     },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 100,
-        marginBottom: 100,
         padding: 30,
-        borderRadius: 25,
-        borderWidth: 5,
-        borderColor: '#3090c9',
-    },
-    loginText: {
-        height: 70,
-        textAlign: 'center',
-        marginTop: 30,
-        fontSize: 25,
-        color: '#3090c9',
-    },
-    loginTextH2: {
-        color: 'black',
-        fontSize: 30,
-        fontWeight: '700',
+        backgroundColor: '#f5f5f5',
     },
     inputBox: {
         width: '100%',
         marginTop: 20,
-        flexDirection: 'column',
     },
     h3: {
         color: 'black',
         fontSize: 20,
         fontWeight: '400',
-    },
-    emailBox: {
-        marginLeft: 70,
-        borderRadius: 50,
-    },
-    emailInput: {
-        width: '87%',
-        height: 60,
-        borderRadius: 100,
-        backgroundColor: 'black',
-        fontSize: 18,
-        fontWeight: '300',
-        marginTop: 50,
-        padding: 5,
-    },
-    passwordBox: {
-        marginLeft: 70,
-    },
-    passwordInput: {
-        width: '87%',
-        height: 60,
-        borderRadius: 10,
-        backgroundColor: 'black',
-        fontSize: 18,
-        fontWeight: '300',
-        marginTop: 30,
-        padding: 5,
-        color: '#000',
-    },
-    account: {
-        flexDirection: 'row',
-        marginTop: 15,
-    },
-    accountP: {
-        fontSize: 14,
-        color: '#fff',
-        fontWeight: '400',
-    },
-    accountA: {
-        fontSize: 14,
-        fontWeight: '400',
-        fontStyle: 'italic',
-    },
-    loginButtonBox: {
-        width: '100%',
-        borderRadius: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-    },
-    loginButton: {
-        height: 70,
-        width: 140,
-        backgroundColor: 'transparent',
-        color: '#fff',
-        fontWeight: '700',
-        fontSize: 24,
-        borderRadius: 15,
+        fontFamily:'Poppins_400Regular',
+        marginBottom: 10
     },
     inputContainer: {
         flexDirection: 'row',
@@ -190,7 +152,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
-        marginBottom: 10,
+        marginBottom: 20,
         backgroundColor: '#fff',
     },
     input: {
