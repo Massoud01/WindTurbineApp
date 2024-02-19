@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function Signup() {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [age, setAge] = useState('');
-    const [dateofbirth, setDateofbirth] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
     const [password, setPassword] = useState('');
     const [password1, setPassword1] = useState('');
@@ -16,8 +16,9 @@ function Signup() {
     const passwordRegex = /^(?=.*[0-9])[a-zA-Z0-9]{8,}$/;
 
     async function signup(e) {
+
         e.preventDefault();
-        if (!email || !password || !firstName || !lastName || !age || !dateofbirth || !phonenumber || !password1) {
+        if (!email || !password || !firstName || !lastName || !phonenumber || !password1) {
             Alert.alert('Please fill in all the fields');
             return;
         }
@@ -27,9 +28,10 @@ function Signup() {
             return;
         }
         if (!passwordRegex.test(password)) {
-            Alert.alert('Password must be at least 8 characters');
+            Alert.alert('Password must contain at least 8 characters and a number');
             return;
         }
+
 
         if (password !== password1) {
             Alert.alert("Passwords do not match, Please Renconfirm Password");
@@ -37,22 +39,30 @@ function Signup() {
         }
 
         try {
-            await axios.post("http://localhost:8000/signup",
-                { email, firstName, lastName, age, dateofbirth, phonenumber, password, password1 }
+            console.log(email, firstName, lastName, phonenumber, password, password1);
+
+            await axios.post("http://192.168.1.103:5000/signup",
+                { email, firstName, lastName, phonenumber, password, password1 }
             )
                 .then(res => {
+
+
+
                     if (res.data === "exist") {
                         Alert.alert("User already exists")
                     }
                     else if (res.data.status === "notexist") {
                         const token = res.data.token;
+                        Alert.alert(`Welcome ${res.data.firstName}`)
+                        navigation.navigate('WelcomeScreen');
                         console.log(token);
-                        // Navigate to the next screen with the token
+                        ;
+
                     }
                 })
                 .catch(e => {
                     Alert.alert(e.message);
-                    console.log(e);
+                    console.error(e);
                 })
 
         }
@@ -67,11 +77,9 @@ function Signup() {
     return (
         <View style={styles.container}>
             <Text style={styles.Text}>Sign Up</Text>
-            <TextInput style={styles.input} placeholder='First Name...' onChangeText={setFirstName} />
+            <TextInput style={styles.input} placeholder='First Name...' onChangeText={text => setFirstName(text)} />
             <TextInput style={styles.input} placeholder='Last Name...' onChangeText={setLastName} />
-            <TextInput style={styles.input} placeholder='Age...' onChangeText={setAge} keyboardType='numeric' />
             <TextInput style={styles.input} placeholder='Phone Number...' onChangeText={setPhonenumber} keyboardType='phone-pad' />
-            <TextInput style={styles.input} placeholder='Date Of Birth...' onChangeText={setDateofbirth} />
             <TextInput style={styles.input} placeholder='Email...' onChangeText={setEmail} keyboardType='email-address' />
             <TextInput style={styles.input} placeholder='Password...' onChangeText={setPassword} secureTextEntry={true} />
             <TextInput style={styles.input} placeholder='Confirm Password...' onChangeText={setPassword1} secureTextEntry={true} />
@@ -106,6 +114,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         paddingLeft: 10,
+        backgroundColor: '#fff',
     },
     button: {
         width: '100%',
