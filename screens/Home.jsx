@@ -1,12 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useEffect } from '@react-navigation/native';
 
 
-function WelcomeScreen() {
-    const navigation = useNavigation();
-
-   
+function Home() {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Welcome and control your turbine!</Text>
@@ -22,6 +19,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#fff',
     },
     image: {
         width: 200, // adjust these values to change the size of the image
@@ -41,4 +39,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default WelcomeScreen;
+export default Home;

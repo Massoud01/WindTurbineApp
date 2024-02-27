@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function Signup() {
     const navigation = useNavigation();
@@ -41,20 +43,19 @@ function Signup() {
         try {
             console.log(email, firstName, lastName, phonenumber, password, password1);
 
-            await axios.post("http://192.168.1.103:5000/signup",
+            await axios.post("http://192.168.1.113:5000/signup",
                 { email, firstName, lastName, phonenumber, password, password1 }
             )
                 .then(res => {
-
-
-
                     if (res.data === "exist") {
                         Alert.alert("User already exists")
                     }
                     else if (res.data.status === "notexist") {
                         const token = res.data.token;
-                        Alert.alert(`Welcome ${res.data.firstName}`)
-                        navigation.navigate('WelcomeScreen');
+                        setToken(token);
+                        AsyncStorage.setItem('token', token);
+                        Alert.alert(`Welcome ${res.data.firstName}!`)
+                        navigation.navigate('HomeStack');
                         console.log(token);
                         ;
 
@@ -66,14 +67,11 @@ function Signup() {
                 })
 
         }
-
-
         catch (e) {
             console.log(e);
 
         }
     }
-
     return (
         <View style={styles.container}>
             <Text style={styles.Text}>Sign Up</Text>
@@ -86,6 +84,10 @@ function Signup() {
             <TouchableOpacity style={styles.button} onPress={signup}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
+            <Text style={styles.termsAndConditions}>
+            By signing up you accept our terms and conditions.
+            All Rights Reserved. ©WindFlow 2024
+        </Text>
         </View>
     );
 }
@@ -93,40 +95,50 @@ function Signup() {
 const styles = StyleSheet.create({
     Text: {
         color: '#3090c9',
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
         fontFamily: 'Poppins_400Regular',
-        margin: 10
+        margin: 10,
+        marginBottom: 40
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        marginTop: 40,
         alignItems: 'center',
         padding: 30,
-        borderWidth: 1,
-        borderColor: '#3090c9',
     },
     input: {
         width: '100%',
         height: 40,
-        borderColor: '#3090c9',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 10,
         paddingLeft: 10,
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: "#eaeaea",
+        padding: 10,
+        marginBottom: 20,
         backgroundColor: '#fff',
     },
     button: {
         width: '100%',
-        height: 40,
+        height: 35,
         backgroundColor: '#3090c9',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
+
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
+    },
+    termsAndConditions: {
+        marginTop: 20, // Adjust as needed
+        color: '#3090c9',
+        textAlign: 'center', 
+        fontStyle: 'italic',
+        fontSize: 14,
+        
     },
 });
 

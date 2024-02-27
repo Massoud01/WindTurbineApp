@@ -3,8 +3,9 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useFonts,Poppins_400Regular } from '@expo-google-fonts/poppins';
+import { useFonts, Poppins_400Regular } from '@expo-google-fonts/poppins';
 import { TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function Login() {
@@ -16,6 +17,7 @@ function Login() {
     const [token, setToken] = useState('');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[0-9])[a-zA-Z0-9]{8,}$/;
+    let isLoggedin = false;
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -27,8 +29,8 @@ function Login() {
     };
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
-      });
-    
+    });
+
 
 
     const login = async () => {
@@ -37,18 +39,19 @@ function Login() {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:8000/login', {
+            const response = await axios.post('http://192.168.1.113:5000/login', {
                 email,
-                password,
+                password, 
             });
 
             if (response.data.status === 'exist') {
                 const token = response.data.token;
                 setToken(token);
-                // Use AsyncStorage or SecureStore instead of localStorage
-                // AsyncStorage.setItem('token', token);
+                AsyncStorage.setItem('token', token);
                 console.log(token);
-                navigation.navigate('Home', { isLoggedin: true });
+                console.log(response.data)
+                Alert.alert(`Welcome ${response.data.firstName}!`);
+                navigation.navigate('HomeStack');
             } else if (response.data === 'notexist') {
                 Alert.alert('User has not signed up yet');
             } else if (response.data === 'incorrectPassword') {
@@ -84,56 +87,68 @@ function Login() {
                     />
                 </View>
                 {passwordError && <Text style={{ color: 'red' }}>{passwordError}</Text>}
-                
+
             </View>
             <View style={styles.buttonBox}>
-            <TouchableOpacity style={styles.loginButton} onPress={login}>
-                <Text style={styles.loginButtonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.signupButton} onPress={() => navigation.navigate('Signup')}>
-                <Text style={styles.signupButtonText}>Don't have an account?</Text>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity style={styles.loginButton} onPress={login}>
+                    <Text style={styles.loginButtonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.signupButton} onPress={() => navigation.navigate('Signup')}>
+                    <Text style={styles.signupButtonText}>Don't have an account?</Text>
+                </TouchableOpacity>
+            
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+
+    buttonBox: {
+        width: "100%",
+        marginTop: 20,
+    },
+
+
+
     loginButton: {
         backgroundColor: '#3090c9',
-        padding: 10,
-        borderRadius: 5,
+        padding: 15,
+        borderRadius: 10,
         alignItems: 'center',
         marginTop: 10,
+        borderWidth: 3,
+        borderColor: "#eaeaea"
     },
     loginButtonText: {
         color: '#fff',
         fontSize: 16,
     },
     signupButton: {
-        backgroundColor: '#3090c9',
+        backgroundColor: 'transparent',
         padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginTop: 10,
+        alignItems: 'left',
+        marginTop: 3,
     },
     signupButtonText: {
-        color: '#fff',
-        fontSize: 16,
+        color: '#3090c9',
+        fontSize: 13,
+        fontStyle: 'italic',
     },
     Text: {
         color: '#3090c9',
-        fontSize: 25,
-        fontWeight: 'bold',
-        fontFamily:'Poppins_400Regular',
+        fontSize: 30,
+        fontWeight: '300',
+        fontFamily: 'Poppins_400Regular',
         marginBottom: 20
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: 30,
-        backgroundColor: '#f5f5f5',
+        padding: 20,
+        backgroundColor: '#fff',
+        paddingTop: 120,
     },
     inputBox: {
         width: '100%',
@@ -143,14 +158,15 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         fontWeight: '400',
-        fontFamily:'Poppins_400Regular',
+        fontFamily: 'Poppins_400Regular',
         marginBottom: 10
     },
     inputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1,
-        borderRadius: 5,
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: "#eaeaea",
         padding: 10,
         marginBottom: 20,
         backgroundColor: '#fff',
