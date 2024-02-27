@@ -19,7 +19,7 @@ app.post("/login", cors(), async (req, res) => {
 
       if (passwordMatch) {
         const token = jwt.sign({ userId: user._id, email: user.email }, 'sdbjqidbUIDVBuduiwdwugiwuid7w9F8FHIwdkbhnufajb', { expiresIn: '1h' });
-        res.json({ status: "exist", token: token });
+        res.json({ status: "exist", token: token , firstName: user.firstName});
       } else {
         res.json("incorrectPassword");
       }
@@ -33,7 +33,7 @@ app.post("/login", cors(), async (req, res) => {
 });
 app.post("/signup", cors(), async (req, res) => {
 
-  const { email, password, firstName, lastName, password1, phonenumber } = req.body;
+  const { email, password, firstName, lastName, phonenumber } = req.body;
   try {
     const check = await windturbineusers.findOne({ email: email });
 
@@ -46,7 +46,6 @@ app.post("/signup", cors(), async (req, res) => {
         password: hashedPassword,
         firstName: firstName,
         lastName: lastName,
-        password1: password1,
         phonenumber: phonenumber
 
       };
