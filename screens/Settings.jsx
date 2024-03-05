@@ -2,8 +2,8 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from "../components/colors";
-import { MaterialIcons} from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Settings = ({ navigation }) => {
   const navigateToProfile = () => {
@@ -16,9 +16,9 @@ const Settings = ({ navigation }) => {
 
   const removeToken = async () => {
     try {
-      await AsyncStorage.removeItem('token');
-      console.log('Token removed');
-      navigation.navigate('Login');
+      await AsyncStorage.removeItem("token");
+      console.log("Token removed");
+      navigation.navigate("Login");
       console.log(isLoggedin);
     } catch (error) {
       console.error(error);
@@ -32,7 +32,6 @@ const Settings = ({ navigation }) => {
     console.log("Privacy function");
   };
 
-
   const accountItems = [
     {
       icon: "person-outline",
@@ -45,10 +44,14 @@ const Settings = ({ navigation }) => {
       text: "Notifications",
       action: navigateToNotifications,
     },
-    { icon: "lock-outline", text: "Privacy", action: navigateToPrivacy, text: "Privacy", action: removeToken },
+    {
+      icon: "lock-outline",
+      text: "Privacy",
+      action: navigateToPrivacy,
+      text: "Privacy",
+      action: removeToken,
+    },
   ];
-
-
 
   const actionsItems = [
     { icon: "logout", text: "Log out", action: removeToken },
@@ -87,7 +90,6 @@ const Settings = ({ navigation }) => {
       }}
     >
       <ScrollView style={{ marginHorizontal: 12 }}>
-  
         <View style={{ marginBottom: 12 }}>
           <Text style={{ marginVertical: 10 }}>Account</Text>
           <View
@@ -108,7 +110,7 @@ const Settings = ({ navigation }) => {
           <View
             style={{
               borderRadius: 12,
-              backgrounColor:"#fff",
+              backgrounColor: "#fff",
             }}
           >
             {actionsItems.map((item, index) => (
