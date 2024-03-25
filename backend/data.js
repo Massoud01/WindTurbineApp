@@ -31,5 +31,18 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+const dataSchema = new mongoose.Schema({
+  windSpeed: {
+    type: Number,
+  },
+  windDirection: {
+    type: Number,
+  },
+  date: {
+    type: Date,
+  },
+});
+
 const users = mongoose.model("windturbineusers", userSchema);
-module.exports = users;
+const data = mongoose.model("windData", dataSchema);
+module.exports = { users, data };

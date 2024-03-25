@@ -1,5 +1,6 @@
 const express = require("express");
-const windturbineusers = require("./data");
+const {users,data} = require("./data");
+
 const cors = require("cors");
 const app = express();
 app.use(express.json());
@@ -12,7 +13,7 @@ const jwt = require("jsonwebtoken");
 app.post("/login", cors(), async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await windturbineusers.findOne({ email: email });
+    const user = await users.findOne({ email: email });
 
     if (user) {
       const passwordMatch = await bcrypt.compare(password, user.password);
@@ -38,7 +39,7 @@ app.post("/login", cors(), async (req, res) => {
 app.post("/signup", cors(), async (req, res) => {
   const { email, password, firstName, lastName, phonenumber, role } = req.body;
   try {
-    const check = await windturbineusers.findOne({ email: email });
+    const check = await users.findOne({ email: email });
 
     if (check) {
       res.json("exist");
@@ -53,8 +54,8 @@ app.post("/signup", cors(), async (req, res) => {
         role: role,
       };
 
-      await windturbineusers.create(data);
-      const user = await windturbineusers.findOne({ email: email });
+      await users.create(data);
+      const user = await users.findOne({ email: email });
       const token = jwt.sign(
         { userId: user._id, email: user.email },
         "sdbjqidbUIDVBuduiwdwugiwuid7w9F8FHIwdkbhnufajb",
@@ -104,7 +105,7 @@ app.get("/user", cors(), async (req, res) => {
     async (err, user) => {
       if (err) return res.sendStatus(403);
 
-      const userData = await windturbineusers.findOne({ _id: user.userId });
+      const userData = await users.findOne({ _id: user.userId });
 
       res.json({
         firstName: userData.firstName,
@@ -117,6 +118,23 @@ app.get("/user", cors(), async (req, res) => {
   );
 });
 
+app.post("/save-data", cors(), async (req, res) => {
+  try{
+    const { windSpeed, windDirection,date} = req.body;
+    const newdata= new data({
+      windSpeed,
+      windDirection,
+      date,
+    });
+    await newdata.save();
+    res.json({status:'success'});
+  }
+  catch (e){
+    console.error(e);
+    res.status(500).json({error:'Error while saving data'});
+
+  }
+});
 app.listen(5000, () => {
   console.log("server is running");
 });
