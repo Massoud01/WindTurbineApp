@@ -36,7 +36,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.104:5000/user", {
+      const response = await axios.get("http://192.168.2.176:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 19,
     fontWeight: "600",
-    color: "#000",
+    color: "#3090c9",
+    fontFamily: "Poppins_400Regular",
   },
   content: {
     paddingHorizontal: 16,
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "500",
     textAlign: "center",
-    color: "#a69f9f",
+    color: "#3090c9",
   },
   section: {
     paddingVertical: 12,
@@ -221,8 +222,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     letterSpacing: 0.33,
     fontWeight: "500",
-    color: "#a69f9f",
+    color: "#3090c9",
     textTransform: "uppercase",
+    fontFamily: "Poppins_400Regular",
   },
   sectionBody: {
     borderRadius: 12,
@@ -255,7 +257,8 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#292929",
+    color: "#3090c9",
+    fontFamily: "Poppins_400Regular",
   },
   profileHandle: {
     marginTop: 2,
@@ -284,7 +287,8 @@ const styles = StyleSheet.create({
   rowLabel: {
     fontSize: 16,
     letterSpacing: 0.24,
-    color: "#000",
+    color: "#3090c9",
+    fontFamily: "Poppins_400Regular",
   },
   rowSpacer: {
     flexGrow: 1,

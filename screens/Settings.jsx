@@ -72,7 +72,7 @@ const Settings = ({ navigation }) => {
       <Text
         style={{
           marginLeft: 36,
-
+          fontFamily:"Poppins_400Regular",
           fontWeight: 600,
           fontSize: 16,
         }}
@@ -91,7 +91,7 @@ const Settings = ({ navigation }) => {
     >
       <ScrollView style={{ marginHorizontal: 12 }}>
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ marginVertical: 10 }}>Account</Text>
+          <Text style={{ marginVertical: 10, fontSize:20,fontFamily:"Poppins_400Regular" }}>Settings</Text>
           <View
             style={{
               borderRadius: 12,
@@ -106,7 +106,7 @@ const Settings = ({ navigation }) => {
           </View>
         </View>
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ marginVertical: 10 }}>Log Out</Text>
+          <Text style={{ marginVertical: 10 ,fontSize:20,fontFamily:"Poppins_400Regular"}}>Log Out</Text>
           <View
             style={{
               borderRadius: 12,

@@ -61,7 +61,7 @@ function Signup() {
       );
 
       await axios
-        .post("http://192.168.1.104:5000/signup", {
+        .post("http://192.168.1.103:5000/signup", {
           email,
           firstName,
           lastName,
@@ -139,7 +139,7 @@ function Signup() {
         ]}
         style={{ ...pickerSelectStyles, ...styles.input }}
         textStyles={styles.TextInput}
-        placeholder={{ label: "Role", value: null }}
+        placeholder={{ label: "Select Role", value: null }}
       />
       <TouchableOpacity style={styles.button} onPress={signup}>
         <Text style={styles.buttonText}>Sign Up</Text>
