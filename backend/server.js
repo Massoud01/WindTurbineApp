@@ -92,6 +92,17 @@ app.post("/signup", cors(), async (req, res) => {
     res.status(500).json({ error: 'An error occurred' });
   }
 });*/
+app.get("/wind-speeds", cors(), async (req, res) => {
+  try {
+    const windData = await data.find().sort({_id:-1}).limit(10);
+    const windSpeeds = windData.map(doc => ({ speed: doc.windSpeed, date: doc.date }));
+    res.json(windSpeeds);
+    console.log(windSpeeds)
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({error: 'Error while retrieving wind speeds'});
+  }
+});
 
 app.get("/user", cors(), async (req, res) => {
   const authHeader = req.headers["authorization"];
@@ -120,7 +131,8 @@ app.get("/user", cors(), async (req, res) => {
 
 app.post("/save-data", cors(), async (req, res) => {
   try{
-    const { windSpeed, windDirection,date} = req.body;
+    let { windSpeed, windDirection, date } = req.body;
+    windSpeed = windSpeed === 0 ? 1 : windSpeed;
     const newdata= new data({
       windSpeed,
       windDirection,

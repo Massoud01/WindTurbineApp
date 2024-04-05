@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import COLORS from "../components/colors";
+import COLORS from "../assets/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const isLoggedin = false;
 
 const Settings = ({ navigation }) => {
   const navigateToProfile = () => {
@@ -24,8 +25,9 @@ const Settings = ({ navigation }) => {
       console.error(error);
     }
   };
-  const navigateToNotifications = () => {
-    console.log("Notifications function");
+  const navigateToHistory = () => {
+    console.log("Navigating to Data Page");
+    navigation.navigate("History");
   };
 
   const navigateToPrivacy = () => {
@@ -40,22 +42,19 @@ const Settings = ({ navigation }) => {
     },
     { icon: "security", text: "Security", action: navigateToSecurity },
     {
-      icon: "notifications-none",
-      text: "Notifications",
-      action: navigateToNotifications,
+      icon: "info-outline",
+      text: "Information",
+      action: navigateToHistory,
     },
-    {
-      icon: "lock-outline",
-      text: "Privacy",
-      action: navigateToPrivacy,
-      text: "Privacy",
-      action: removeToken,
-    },
+    
   ];
 
   const actionsItems = [
     { icon: "logout", text: "Log out", action: removeToken },
   ];
+  const controllerItems= [
+    {icon:"electric-bolt",text:"Controller",action:"controller"},{icon:"align-vertical-bottom", text:"Data", action: navigateToHistory}
+  ]
 
   const renderSettingsItem = ({ icon, text, action }) => (
     <TouchableOpacity
@@ -89,6 +88,7 @@ const Settings = ({ navigation }) => {
         backgroundColor: COLORS.white,
       }}
     >
+      
       <ScrollView style={{ marginHorizontal: 12 }}>
         <View style={{ marginBottom: 12 }}>
           <Text style={{ marginVertical: 10, fontSize:20,fontFamily:"Poppins_400Regular" }}>Settings</Text>
@@ -105,6 +105,22 @@ const Settings = ({ navigation }) => {
             ))}
           </View>
         </View>
+        <View style={{ marginBottom: 12 }}>
+          <Text style={{ marginVertical: 10 ,fontSize:20,fontFamily:"Poppins_400Regular"}}>Controller</Text>
+          <View
+            style={{
+              borderRadius: 12,
+              backgrounColor: "#fff",
+            }}
+          >
+            {controllerItems.map((item, index) => (
+              <React.Fragment key={index}>
+                {renderSettingsItem(item)}
+              </React.Fragment>
+            ))}
+          </View>
+        </View>
+        
         <View style={{ marginBottom: 12 }}>
           <Text style={{ marginVertical: 10 ,fontSize:20,fontFamily:"Poppins_400Regular"}}>Log Out</Text>
           <View

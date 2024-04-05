@@ -9,6 +9,8 @@ import Signup from "./screens/login-signup/singup";
 import Welcome from "./screens/Welcome";
 import Settings from "./screens/Settings";
 import Profile from "./screens/Profile";
+import WindMap from "./screens/WindMap";
+import History from "./screens/History";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,6 +26,9 @@ function BottomTabNavigation() {
           if (route.name === "Dashboard") {
             iconName = focused ? "dashboard" : "dashboard";
             IconComponent = FontAwesome;
+          } else if (route.name === "WindMap") {
+            iconName = focused ? "map" : "map";
+            IconComponent = FontAwesome;
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings-outline";
           }
@@ -37,6 +42,11 @@ function BottomTabNavigation() {
       <Tab.Screen
         name="Dashboard"
         component={Home}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="WindMap"
+        component={WindMap}
         options={{ headerShown: false }}
       />
       <Tab.Screen
@@ -79,6 +89,15 @@ function App() {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{ headerShown: false, headerLeft: () => null }}
+        />
+        <Stack.Screen
+          name="History"
+          component={History}
+          options={{ headerShown: false, headerLeft: () => null }}/>
+        <Stack.Screen
+          name="WindMap"
+          component={WindMap}
           options={{ headerShown: false, headerLeft: () => null }}
         />
       </Stack.Navigator>

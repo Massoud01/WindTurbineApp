@@ -23,7 +23,8 @@ const Home = () => {
   const city = "Beirut";
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.2.176:5000/user", {
+      console.log(token);
+      const response = await axios.get("http://192.168.1.102:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,6 +36,11 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+  }, [token]);
   const fetchWindData = async () => {
     try {
       const apiKey = "730fbafb13c733562e64b889e96c3c88";
@@ -46,10 +52,14 @@ const Home = () => {
       setWindSpeed(response.data.wind.speed);
       setWindDirection(response.data.wind.deg);
       console.log(
-        "This wind speed" + windSpeed + "This is degree" + windDirection
+        "This is the  wind speed : " +
+          windSpeed +
+          " " +
+          "This is the degree : " +
+          windDirection
       );
 
-      saveWindData();
+      saveWindData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -65,13 +75,17 @@ const Home = () => {
   };
 
   const saveWindData = async () => {
+    if (windSpeed === 0) {
+      console.log("Wind speed is 0, not saving to database");
+      return;
+    }
     const data = {
       windSpeed: windSpeed,
       windDirection: windDirection,
-      date: new Date(`${year}-${month}-${day}`),
+      date: new Date(`${year}-${month}-${day}`), // Date format: YYYY-MM-DD
     };
     try {
-      const response = await fetch("http://192.168.2.176:5000/save-data", {
+      const response = await fetch("http://192.168.1.102:5000/save-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,26 +106,24 @@ const Home = () => {
   useEffect(() => {
     fetchToken();
     fetchWindData();
-    getUser();
-    const intervalId = setInterval(fetchWindData, 300000); // Fetches data every 5 minutes
+    console.log("This is the wind speed: " + windSpeed);
+  }, [windSpeed]);
+  
 
-    return () => {
-      clearInterval(intervalId); // Clears the interval when the component unmounts
-    };
-  }, []);
-
+  
   return (
+
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome {firstName}!</Text>
-      <View style={styles.dataContainer}>
-        <Icon name="wind" size={30} color={COLORS.blue} />
-        <Text style={styles.dataText}>Wind Speed: {windSpeed.toFixed(2)}</Text>
+      <View style={styles.card}>
+        <Icon name="wind" size={30} color="#3090c9" />
+        <Text style={styles.cardTitle}>Wind Speed</Text>
+        <Text style={styles.cardText}>{windSpeed.toFixed(2)}</Text>
       </View>
-      <View style={styles.dataContainer}>
-        <Icon name="compass" size={30} color={COLORS.green} />
-        <Text style={styles.dataText}>
-          Wind Direction: {windDirection.toFixed(2)}
-        </Text>
+      <View style={styles.card}>
+        <Icon name="compass" size={30} color="#3090c9" />
+        <Text style={styles.cardTitle}>Wind Direction</Text>
+        <Text style={styles.cardText}>{windDirection.toFixed(2)}°</Text>
       </View>
     </View>
   );
@@ -123,25 +135,32 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
   },
-  dataContainer: {
-    flexDirection: "row",
+  card: {
+    backgroundColor: COLORS.secondary,
+    width: -40,
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
     alignItems: "center",
-    marginBottom: 10,
   },
-  welcomeText: {
+  cardTitle: {
     fontFamily: "Poppins_400Regular",
     fontSize: 20,
-    textAlign: "left",
-    justifyContent: "left",
-    marginBottom: 20,
 
     color: COLORS.black,
   },
-  dataText: {
+  cardText: {
     fontFamily: "Poppins_400Regular",
     fontSize: 16,
-    marginLeft: 10,
+    color: COLORS.black,
+  },
+  welcomeText: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
     color: COLORS.black,
   },
 });

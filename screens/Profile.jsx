@@ -36,7 +36,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.2.176:5000/user", {
+      const response = await axios.get("http://192.168.1.102:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,13 +64,8 @@ const Profile = ({ user }) => {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
           <View style={[styles.headerAction, { alignItems: "flex-end" }]}>
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
-            >
-              <FeatherIcon color="#000" name="more-vertical" size={24} />
-            </TouchableOpacity>
+            
+          
           </View>
         </View>
 
@@ -97,7 +92,7 @@ const Profile = ({ user }) => {
                   <Text style={styles.profileHandle}>{email}</Text>
                 </View>
 
-                <FeatherIcon color="#bcbcbc" name="chevron-right" size={22} />
+      
               </TouchableOpacity>
             </View>
           </View>
@@ -119,7 +114,7 @@ const Profile = ({ user }) => {
 
                   <Text style={styles.rowValue}>{phonenumber}</Text>
 
-                  <FeatherIcon color="#bcbcbc" name="chevron-right" size={19} />
+              
                 </TouchableOpacity>
               </View>
 
@@ -138,22 +133,7 @@ const Profile = ({ user }) => {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.rowWrapper}>
-                <View style={styles.row}>
-                  <Text style={styles.rowLabel}>Email Notifications</Text>
-
-                  <View style={styles.rowSpacer} />
-
-                  <Switch
-                    onValueChange={(emailNotifications) =>
-                      setForm({ ...form, emailNotifications })
-                    }
-                    style={{ transform: [{ scaleX: 0.95 }, { scaleY: 0.95 }] }}
-                    value={form.emailNotifications}
-                  />
-                </View>
-              </View>
-
+            
               <View style={[styles.rowWrapper, styles.rowLast]}>
                 <View style={styles.row}>
                   <Text style={styles.rowLabel}>Push Notifications</Text>
@@ -200,7 +180,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 19,
     fontWeight: "600",
-    color: "#3090c9",
+    color: "black",
     fontFamily: "Poppins_400Regular",
   },
   content: {
@@ -211,7 +191,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "500",
     textAlign: "center",
-    color: "#3090c9",
+    color: "black",
   },
   section: {
     paddingVertical: 12,
@@ -222,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     letterSpacing: 0.33,
     fontWeight: "500",
-    color: "#3090c9",
+    color: "black",
     textTransform: "uppercase",
     fontFamily: "Poppins_400Regular",
   },
@@ -257,7 +237,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#3090c9",
+    color: "black",
     fontFamily: "Poppins_400Regular",
   },
   profileHandle: {
@@ -287,7 +267,7 @@ const styles = StyleSheet.create({
   rowLabel: {
     fontSize: 16,
     letterSpacing: 0.24,
-    color: "#3090c9",
+    color: "black",
     fontFamily: "Poppins_400Regular",
   },
   rowSpacer: {
