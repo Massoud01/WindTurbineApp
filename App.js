@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Home from "./screens/Home";
 import Login from "./screens/login-signup/login";
 import Signup from "./screens/login-signup/singup";
@@ -11,6 +11,9 @@ import Settings from "./screens/Settings";
 import Profile from "./screens/Profile";
 import WindMap from "./screens/WindMap";
 import History from "./screens/History";
+import ReportIssue from "./screens/ReportIssue";
+import  Information from "./screens/Information";
+import Controller from "./screens/Controller";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,6 +35,10 @@ function BottomTabNavigation() {
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings-outline";
           }
+          else if(route.name==="Controller"){
+            iconName= focused ? "electric-bolt" : "electric-bolt";
+            IconComponent=MaterialIcons;
+          }
 
           return <IconComponent name={iconName} size={size} color={color} />;
         },
@@ -50,10 +57,16 @@ function BottomTabNavigation() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
+      name="Controller"
+      component={Controller}
+      options={{ headerShown: false }}
+      />
+      <Tab.Screen
         name="Settings"
         component={Settings}
         options={{ headerShown: false }}
       />
+      
     </Tab.Navigator>
   );
 }
@@ -100,6 +113,22 @@ function App() {
           component={WindMap}
           options={{ headerShown: false, headerLeft: () => null }}
         />
+        <Stack.Screen
+        name="ReportIssue"
+        component={ReportIssue}
+        options={{ headerShown: false, headerLeft: () => null }}
+        />
+         <Stack.Screen
+        name="Information"
+        component={Information}
+        options={{ headerShown: false, headerLeft: () => null }}
+        />
+         <Stack.Screen
+        name="Controller"
+        component={Controller}
+        options={{ headerShown: false, headerLeft: () => null }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

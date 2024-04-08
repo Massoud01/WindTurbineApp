@@ -11,8 +11,9 @@ const Settings = ({ navigation }) => {
     navigation.navigate("Profile");
   };
 
-  const navigateToSecurity = () => {
-    console.log("Security function");
+  const navigateToReport = () => {
+    console.log("Navigating to Report Issue Page");
+    navigation.navigate("ReportIssue");
   };
 
   const removeToken = async () => {
@@ -29,9 +30,12 @@ const Settings = ({ navigation }) => {
     console.log("Navigating to Data Page");
     navigation.navigate("History");
   };
+const navigateToController = () => {
+  navigation.navigate("Controller");
+};
 
-  const navigateToPrivacy = () => {
-    console.log("Privacy function");
+  const navigateToInformation = () => {
+    navigation.navigate("Information");
   };
 
   const accountItems = [
@@ -40,11 +44,11 @@ const Settings = ({ navigation }) => {
       text: "Profile",
       action: navigateToProfile,
     },
-    { icon: "security", text: "Security", action: navigateToSecurity },
+    { icon: "security", text: "Report an Issue", action: navigateToReport },
     {
       icon: "info-outline",
       text: "Information",
-      action: navigateToHistory,
+      action: navigateToInformation,
     },
     
   ];
@@ -53,7 +57,7 @@ const Settings = ({ navigation }) => {
     { icon: "logout", text: "Log out", action: removeToken },
   ];
   const controllerItems= [
-    {icon:"electric-bolt",text:"Controller",action:"controller"},{icon:"align-vertical-bottom", text:"Data", action: navigateToHistory}
+    {icon:"electric-bolt",text:"Controller",action:navigateToController},{icon:"align-vertical-bottom", text:"Data", action: navigateToHistory}
   ]
 
   const renderSettingsItem = ({ icon, text, action }) => (

@@ -42,7 +42,25 @@ const dataSchema = new mongoose.Schema({
     type: Date,
   },
 });
+const contactusSchema = new mongoose.Schema({
+  name: {
+      type: String,
+      required: true,
+  },
+  email: {
+      type: String,
+      required: true,
+  },
+  phonenumber: {
+      type: Number,
+  },
+  query: {
+      type: String,
+      required: true,
+  },
+});
 
 const users = mongoose.model("windturbineusers", userSchema);
 const data = mongoose.model("windData", dataSchema);
-module.exports = { users, data };
+const contactus = mongoose.model("contactus", contactusSchema);
+module.exports = { users, data,contactus};

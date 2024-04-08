@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LottieView from 'lottie-react-native';
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome5";
 const COLORS = {
@@ -24,7 +25,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       console.log(token);
-      const response = await axios.get("http://192.168.1.102:5000/user", {
+      const response = await axios.get("http://10.81.27.182:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,7 +49,6 @@ const Home = () => {
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
       );
       setData(response.data);
-      console.log(response.data.wind.speed);
       setWindSpeed(response.data.wind.speed);
       setWindDirection(response.data.wind.deg);
       console.log(
@@ -75,8 +75,8 @@ const Home = () => {
   };
 
   const saveWindData = async () => {
-    if (windSpeed === 0) {
-      console.log("Wind speed is 0, not saving to database");
+    if (windSpeed === 0 && windDirection === 0) {
+      console.log("Wind speed is 0, Wind Direction also. not saving to database");
       return;
     }
     const data = {
@@ -85,7 +85,7 @@ const Home = () => {
       date: new Date(`${year}-${month}-${day}`), // Date format: YYYY-MM-DD
     };
     try {
-      const response = await fetch("http://192.168.1.102:5000/save-data", {
+      const response = await fetch("http://10.81.27.182:5000/save-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,30 +106,38 @@ const Home = () => {
   useEffect(() => {
     fetchToken();
     fetchWindData();
-    console.log("This is the wind speed: " + windSpeed);
   }, [windSpeed]);
   
 
   
   return (
-
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome {firstName}!</Text>
-      <View style={styles.card}>
-        <Icon name="wind" size={30} color="#3090c9" />
-        <Text style={styles.cardTitle}>Wind Speed</Text>
-        <Text style={styles.cardText}>{windSpeed.toFixed(2)}</Text>
-      </View>
-      <View style={styles.card}>
-        <Icon name="compass" size={30} color="#3090c9" />
-        <Text style={styles.cardTitle}>Wind Direction</Text>
-        <Text style={styles.cardText}>{windDirection.toFixed(2)}°</Text>
+       <Text style={styles.welcomeText}>{firstName}'s Wind Turbine</Text>
+       <Text style={styles.dateText}>Date:{new Date().toLocaleDateString()}</Text>
+      <LottieView source={require('../assets/TurbineAnimation.json')} autoPlay loop style={styles.animation} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={styles.card}>
+          <Icon name="wind" size={30} color="#3090c9" />
+          <Text style={styles.cardTitle}>Wind Speed</Text>
+          <Text style={styles.cardText}>{windSpeed.toFixed(2)} m/s</Text>
+        </View>
+        <View style={styles.card}>
+          <Icon name="compass" size={30} color="#3090c9" />
+          <Text style={styles.cardTitle}>Wind Direction</Text>
+          <Text style={styles.cardText}>{windDirection.toFixed(2)}°</Text>
+        </View>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  animation: {
+    width: 225,
+    height: 225,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
@@ -148,6 +156,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontFamily: "Poppins_400Regular",
     fontSize: 20,
+    flexDirection: "row",
 
     color: COLORS.black,
   },
@@ -155,6 +164,9 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     fontSize: 16,
     color: COLORS.black,
+    flexDirection: "row",
+
+
   },
   welcomeText: {
     fontFamily: "Poppins_400Regular",
@@ -162,6 +174,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     color: COLORS.black,
+  },
+  dateText: {
+    fontFamily: "Poppins_400Regular",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#3090c9",
   },
 });
 

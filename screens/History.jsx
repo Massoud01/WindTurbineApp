@@ -17,7 +17,7 @@ const History = () => {
     const fetchWindSpeeds = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.1.102:5000/wind-speeds"
+          "http://10.81.27.182:5000/wind-speeds"
         );
         const validData = response.data.filter(
           (item) => typeof item.speed === "number" && item.date
