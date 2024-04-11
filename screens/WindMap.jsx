@@ -1,64 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import axios from 'axios';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import WebView from 'react-native-webview';
 
 const WindMap = () => {
-  const [windData, setWindData] = useState(null);
-  const [windSpeed, setWindSpeed] = useState(0);
-  const [windDirection, setWindDirection] = useState(0);
-  const city = "Beirut";
+  const webViewRef = useRef(null);
+  const options = {
+    key: '2hG82DRFAKAzB4ulrv3LLitAMuf4b1Dw', // Replace with your Windy API key
+    lat: 50.4,
+    lon: 14.3,
+    zoom: 5,
+  };
+
+  const initializeWindy = () => {
+    console.log('Initializing Windy...');
+    webViewRef.current.injectJavaScript(`
+      console.log('Injecting JavaScript...');
+      windyInit(${JSON.stringify(options)}, (windyAPI) => {
+        console.log('Windy initialized');
+        const { map } = windyAPI;
+        L.popup()
+          .setLatLng([50.4, 14.3])
+          .setContent('Hello World')
+          .openOn(map);
+      });
+    `);
+  };
 
   useEffect(() => {
-    const fetchWindData = async () => {
-      try {
-        const apiKey = "730fbafb13c733562e64b889e96c3c88";
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-        );
-        setWindSpeed(response.data.wind.speed);
-        setWindDirection(response.data.wind.deg);
-        setWindData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchWindData();
+    console.log('Calling initializeWindy...');
+    initializeWindy();
   }, []);
 
-  const getColorForWindSpeed = (speed) => {
-    if (windSpeed < 2) return 'green';
-    if (windSpeed < 5) return 'yellow';
-    return 'red';
+  const handleWebViewError = (syntheticEvent) => {
+    const { nativeEvent } = syntheticEvent;
+    console.warn('WebView error: ', nativeEvent);
   };
 
   return (
-    <MapView
-      style={{ flex: 1 }}
-      initialRegion={{
-        latitude: 33.8938,
-        longitude: 35.5018,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
-    >
-      {windData && (
-        <Marker
-          coordinate={{ latitude: windData.coord.lat, longitude: windData.coord.lon }}
-        >
-          <View
-            style={{
-              height: 20,
-              width: 20,
-              borderRadius: 10,
-              backgroundColor: getColorForWindSpeed(windSpeed),
-            }}
-          />
-        </Marker>
-      )}
-    </MapView>
+    <View style={styles.container}>
+      <WebView
+        ref={webViewRef}
+        source={require('./WindyTest.html')} // Replace with the path to your HTML file
+        style={styles.webView}
+        javaScriptEnabled={true}
+        originWhitelist={['*']}
+        onError={handleWebViewError}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  webView: {
+    flex: 1,
+  },
+});
 
 export default WindMap;

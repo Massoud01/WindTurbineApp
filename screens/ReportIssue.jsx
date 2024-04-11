@@ -17,7 +17,7 @@ const ReportIssue = ({ navigation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://10.81.27.182:5000/contactus", {
+    const response = await axios.post("http://192.168.1.101:5000/contactus", {
       name,
       email,
       phonenumber,
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "black",
     marginBottom: 5,
+    fontFamily: "Poppins_400Regular",
   },
   formInput: {
     width: "100%",
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     color: "#00008b",
     fontSize: 18,
     marginBottom: 20,
+    fontFamily:"Poppins_400Regular"
   },
   formButton: {
     backgroundColor: "#3090C7",
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 18,
+    fontFamily:"Poppins_400Regular"
   },
 });
 
