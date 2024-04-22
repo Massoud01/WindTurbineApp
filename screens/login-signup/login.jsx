@@ -36,7 +36,7 @@ function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://192.168.1.101:5000/login", {
+      const response = await axios.post("http://192.168.1.105:5000/login", {
         email,
         password,
       });
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: "#3090c9",
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: "center",
     marginTop: 10,
     borderWidth: 3,
@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: "#fff",
     fontSize: 16,
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 18,
+    fontFamily: "Poppins_400Regular",
   },
   signupButton: {
     backgroundColor: "transparent",

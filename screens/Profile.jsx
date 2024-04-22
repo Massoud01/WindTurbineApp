@@ -36,7 +36,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.101:5000/user", {
+      const response = await axios.get("http://192.168.1.103:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,14 +59,13 @@ const Profile = ({ user }) => {
   }, [token]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
-          <View style={[styles.headerAction, { alignItems: "flex-end" }]}>
-            
-          
-          </View>
+          <View
+            style={[styles.headerAction, { alignItems: "flex-end" }]}
+          ></View>
         </View>
 
         <ScrollView contentContainerStyle={styles.content}>
@@ -91,8 +90,6 @@ const Profile = ({ user }) => {
 
                   <Text style={styles.profileHandle}>{email}</Text>
                 </View>
-
-      
               </TouchableOpacity>
             </View>
           </View>
@@ -113,8 +110,6 @@ const Profile = ({ user }) => {
                   <View style={styles.rowSpacer} />
 
                   <Text style={styles.rowValue}>{phonenumber}</Text>
-
-              
                 </TouchableOpacity>
               </View>
 
@@ -133,10 +128,22 @@ const Profile = ({ user }) => {
                 </TouchableOpacity>
               </View>
 
-            
               <View style={[styles.rowWrapper, styles.rowLast]}>
                 <View style={styles.row}>
-                  <Text style={styles.rowLabel}>Push Notifications</Text>
+                  <Text style={styles.rowLabel}>Heater Dissipation</Text>
+
+                  <View style={styles.rowSpacer} />
+
+                  <Switch
+                    onValueChange={(pushNotifications) =>
+                      setForm({ ...form, pushNotifications })
+                    }
+                    style={{ transform: [{ scaleX: 0.95 }, { scaleY: 0.95 }] }}
+                    value={form.pushNotifications}
+                  />
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.rowLabel}>Brakes</Text>
 
                   <View style={styles.rowSpacer} />
 

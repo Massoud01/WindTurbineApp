@@ -17,7 +17,7 @@ const ReportIssue = ({ navigation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://192.168.1.101:5000/contactus", {
+    const response = await axios.post("http://192.168.1.103:5000/contactus", {
       name,
       email,
       phonenumber,
@@ -34,7 +34,7 @@ const ReportIssue = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Report an Issue</Text>
+        <Text style={styles.headerTitle}>Feedback</Text>
         <View style={[styles.headerAction, { alignItems: "flex-end" }]}></View>
       </View>
       <View>
@@ -106,17 +106,14 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
   },
   formInput: {
-    width: "100%",
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 4,
-    borderWidth: 0.4,
-    borderColor: "#00008b",
-    backgroundColor: "#fff",
-    color: "#00008b",
-    fontSize: 18,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: "#eaeaea",
+    padding: 10,
     marginBottom: 20,
-    fontFamily:"Poppins_400Regular"
+    backgroundColor: "#fff",
   },
   formButton: {
     backgroundColor: "#3090C7",
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 18,
-    fontFamily:"Poppins_400Regular"
+    fontFamily: "Poppins_400Regular",
   },
 });
 

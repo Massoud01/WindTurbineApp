@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LottieView from 'lottie-react-native';
+import LottieView from "lottie-react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome5";
 const COLORS = {
@@ -25,7 +25,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       console.log(token);
-      const response = await axios.get("http://192.168.1.101:5000/user", {
+      const response = await axios.get("http://192.168.1.103:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,9 @@ const Home = () => {
 
   const saveWindData = async () => {
     if (windSpeed === 0 && windDirection === 0) {
-      console.log("Wind speed is 0, Wind Direction also. not saving to database");
+      console.log(
+        "Wind speed is 0, Wind Direction also. not saving to database"
+      );
       return;
     }
     const data = {
@@ -85,7 +87,7 @@ const Home = () => {
       date: new Date(`${year}-${month}-${day}`), // Date format: YYYY-MM-DD
     };
     try {
-      const response = await fetch("http://192.168.1.101:5000/save-data", {
+      const response = await fetch("http://192.168.2.176:5000/save-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,15 +109,20 @@ const Home = () => {
     fetchToken();
     fetchWindData();
   }, [windSpeed]);
-  
 
-  
   return (
     <View style={styles.container}>
-       <Text style={styles.welcomeText}>{firstName}'s Wind Turbine</Text>
-       <Text style={styles.dateText}>Date:{new Date().toLocaleDateString()}</Text>
-      <LottieView source={require('../assets/TurbineAnimation.json')} autoPlay loop style={styles.animation} />
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <Text style={styles.welcomeText}>{firstName}'s Wind Turbine</Text>
+      <Text style={styles.dateText}>
+        Date:{new Date().toLocaleDateString()}
+      </Text>
+      <LottieView
+        source={require("../assets/TurbineAnimation.json")}
+        autoPlay
+        loop
+        style={styles.animation}
+      />
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={styles.card}>
           <Icon name="wind" size={30} color="#3090c9" />
           <Text style={styles.cardTitle}>Wind Speed</Text>
@@ -129,7 +136,7 @@ const Home = () => {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   animation: {
@@ -165,8 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.black,
     flexDirection: "row",
-
-
   },
   welcomeText: {
     fontFamily: "Poppins_400Regular",

@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-    <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
-    <style>
-      #windy {
-        width: 150%;
-        height: 99vh;
-        
-      }
-    </style>
-  </head>
-  <body>
-    <div id="windy"></div>
-    <script>
-      const options = {
-        key: '2hG82DRFAKAzB4ulrv3LLitAMuf4b1Dw',
-        lat: 33.888,
-        lon: 35.49,
-        zoom: 5,
-      };
 
-      windyInit(options, (windyAPI) => {
-        const { map } = windyAPI;
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-        L.popup()
-          .setLatLng([33.88, 35.49])
-          .setContent('Beirout, Lebanon')
-          .openOn(map);
-      });
-    </script>
-  </body>
+    #windy {
+      width: 100%;
+      height: 100vh;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="windy"></div>
+  <script>
+    const options = {
+      key: '2hG82DRFAKAzB4ulrv3LLitAMuf4b1Dw',
+      lat: 33.888,
+      lon: 35.49,
+      zoom: 8,
+    };
+
+    windyInit(options, (windyAPI) => {
+      const { map } = windyAPI;
+
+    });
+  </script>
+</body>
+
 </html>

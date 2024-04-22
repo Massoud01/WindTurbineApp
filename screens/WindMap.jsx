@@ -1,25 +1,25 @@
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import WebView from 'react-native-webview';
+import React, { useRef, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import WebView from "react-native-webview";
 
 const WindMap = () => {
   const webViewRef = useRef(null);
   const options = {
-    key: '2hG82DRFAKAzB4ulrv3LLitAMuf4b1Dw', // Replace with your Windy API key
+    key: "2hG82DRFAKAzB4ulrv3LLitAMuf4b1Dw", // Replace with your Windy API key
     lat: 50.4,
     lon: 14.3,
     zoom: 5,
   };
 
   const initializeWindy = () => {
-    console.log('Initializing Windy...');
+    console.log("Initializing Windy...");
     webViewRef.current.injectJavaScript(`
       console.log('Injecting JavaScript...');
       windyInit(${JSON.stringify(options)}, (windyAPI) => {
         console.log('Windy initialized');
         const { map } = windyAPI;
         L.popup()
-          .setLatLng([50.4, 14.3])
+          .setLatLng([33.8, 35.8])
           .setContent('Hello World')
           .openOn(map);
       });
@@ -27,23 +27,23 @@ const WindMap = () => {
   };
 
   useEffect(() => {
-    console.log('Calling initializeWindy...');
+    console.log("Calling initializeWindy...");
     initializeWindy();
   }, []);
 
   const handleWebViewError = (syntheticEvent) => {
     const { nativeEvent } = syntheticEvent;
-    console.warn('WebView error: ', nativeEvent);
+    console.warn("WebView error: ", nativeEvent);
   };
 
   return (
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={require('./WindyTest.html')} // Replace with the path to your HTML file
+        source={require("./WindyTest.html")}
         style={styles.webView}
         javaScriptEnabled={true}
-        originWhitelist={['*']}
+        originWhitelist={["*"]}
         onError={handleWebViewError}
       />
     </View>
@@ -53,8 +53,8 @@ const WindMap = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: 'center',
-    justifyContent: 'center',
+    alignContent: "center",
+    justifyContent: "center",
   },
   webView: {
     flex: 1,

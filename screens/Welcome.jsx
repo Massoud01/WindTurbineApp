@@ -8,8 +8,18 @@ import {
   Poppins_400Regular,
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
+import * as Font from "expo-font";
 
 const Welcome = ({ navigation }) => {
+  async function loadFonts() {
+    await Font.loadAsync({
+      Poppins_400: require("../assets/fonts/Poppins-Regular.ttf"),
+      PoppinsBoldItalic: require("../assets/fonts/Poppins-BoldItalic.ttf"),
+      // Add more font families if needed
+    });
+  }
+
+  loadFonts();
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate("Login");
@@ -46,7 +56,7 @@ const Welcome = ({ navigation }) => {
         >
           <Text
             style={{
-              fontSize: 50,
+              fontSize: 45,
               color: COLORS.white,
               marginVertical: -35,
               fontFamily: "Poppins_400",

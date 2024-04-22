@@ -30,9 +30,9 @@ const Settings = ({ navigation }) => {
     console.log("Navigating to Data Page");
     navigation.navigate("History");
   };
-const navigateToController = () => {
-  navigation.navigate("Controller");
-};
+  const navigateToController = () => {
+    navigation.navigate("Controller");
+  };
 
   const navigateToInformation = () => {
     navigation.navigate("Information");
@@ -44,21 +44,21 @@ const navigateToController = () => {
       text: "Profile",
       action: navigateToProfile,
     },
-    { icon: "security", text: "Report an Issue", action: navigateToReport },
+    { icon: "security", text: "Feedback", action: navigateToReport },
     {
       icon: "info-outline",
       text: "Information",
       action: navigateToInformation,
     },
-    
   ];
 
   const actionsItems = [
     { icon: "logout", text: "Log out", action: removeToken },
   ];
-  const controllerItems= [
-    {icon:"electric-bolt",text:"Controller",action:navigateToController},{icon:"align-vertical-bottom", text:"Data", action: navigateToHistory}
-  ]
+  const controllerItems = [
+    { icon: "electric-bolt", text: "Controller", action: navigateToController },
+    { icon: "align-vertical-bottom", text: "Data", action: navigateToHistory },
+  ];
 
   const renderSettingsItem = ({ icon, text, action }) => (
     <TouchableOpacity
@@ -75,7 +75,7 @@ const navigateToController = () => {
       <Text
         style={{
           marginLeft: 36,
-          fontFamily:"Poppins_400Regular",
+          fontFamily: "Poppins_400Regular",
           fontWeight: 600,
           fontSize: 16,
         }}
@@ -92,10 +92,17 @@ const navigateToController = () => {
         backgroundColor: COLORS.white,
       }}
     >
-      
       <ScrollView style={{ marginHorizontal: 12 }}>
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ marginVertical: 10, fontSize:20,fontFamily:"Poppins_400Regular" }}>Settings</Text>
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 20,
+              fontFamily: "Poppins_400Regular",
+            }}
+          >
+            Settings
+          </Text>
           <View
             style={{
               borderRadius: 12,
@@ -110,7 +117,15 @@ const navigateToController = () => {
           </View>
         </View>
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ marginVertical: 10 ,fontSize:20,fontFamily:"Poppins_400Regular"}}>Controller</Text>
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 20,
+              fontFamily: "Poppins_400Regular",
+            }}
+          >
+            Controller
+          </Text>
           <View
             style={{
               borderRadius: 12,
@@ -124,9 +139,17 @@ const navigateToController = () => {
             ))}
           </View>
         </View>
-        
+
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ marginVertical: 10 ,fontSize:20,fontFamily:"Poppins_400Regular"}}>Log Out</Text>
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 20,
+              fontFamily: "Poppins_400Regular",
+            }}
+          >
+            Log Out
+          </Text>
           <View
             style={{
               borderRadius: 12,
