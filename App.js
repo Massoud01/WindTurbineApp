@@ -12,7 +12,7 @@ import Profile from "./screens/Profile";
 import WindMap from "./screens/WindMap";
 import History from "./screens/History";
 import ReportIssue from "./screens/ReportIssue";
-import  Information from "./screens/Information";
+import Information from "./screens/Information";
 import Controller from "./screens/Controller";
 
 const Stack = createStackNavigator();
@@ -34,10 +34,9 @@ function BottomTabNavigation() {
             IconComponent = FontAwesome;
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings-outline";
-          }
-          else if(route.name==="Controller"){
-            iconName= focused ? "electric-bolt" : "electric-bolt";
-            IconComponent=MaterialIcons;
+          } else if (route.name === "Controller") {
+            iconName = focused ? "electric-bolt" : "electric-bolt";
+            IconComponent = MaterialIcons;
           }
 
           return <IconComponent name={iconName} size={size} color={color} />;
@@ -57,16 +56,15 @@ function BottomTabNavigation() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-      name="Controller"
-      component={Controller}
-      options={{ headerShown: false }}
+        name="Controller"
+        component={Controller}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name="Settings"
         component={Settings}
         options={{ headerShown: false }}
       />
-      
     </Tab.Navigator>
   );
 }
@@ -107,28 +105,28 @@ function App() {
         <Stack.Screen
           name="History"
           component={History}
-          options={{ headerShown: false, headerLeft: () => null }}/>
+          options={{ headerShown: false, headerLeft: () => null }}
+        />
         <Stack.Screen
           name="WindMap"
           component={WindMap}
           options={{ headerShown: false, headerLeft: () => null }}
         />
         <Stack.Screen
-        name="ReportIssue"
-        component={ReportIssue}
-        options={{ headerShown: false, headerLeft: () => null }}
+          name="ReportIssue"
+          component={ReportIssue}
+          options={{ headerShown: false, headerLeft: () => null }}
         />
-         <Stack.Screen
-        name="Information"
-        component={Information}
-        options={{ headerShown: false, headerLeft: () => null }}
+        <Stack.Screen
+          name="Information"
+          component={Information}
+          options={{ headerShown: false, headerLeft: () => null }}
         />
-         <Stack.Screen
-        name="Controller"
-        component={Controller}
-        options={{ headerShown: false, headerLeft: () => null }}
+        <Stack.Screen
+          name="Controller"
+          component={Controller}
+          options={{ headerShown: false, headerLeft: () => null }}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
