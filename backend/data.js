@@ -4,6 +4,10 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
+const SimulationDataScehma = new mongoose.Schema({
+  P: [Number],
+});
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -44,23 +48,24 @@ const dataSchema = new mongoose.Schema({
 });
 const contactusSchema = new mongoose.Schema({
   name: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
   email: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
   phonenumber: {
-      type: Number,
+    type: Number,
   },
   query: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
 });
 
 const users = mongoose.model("windturbineusers", userSchema);
 const data = mongoose.model("windData", dataSchema);
 const contactus = mongoose.model("contactus", contactusSchema);
-module.exports = { users, data,contactus};
+const simulationData = mongoose.model("simulationData", SimulationDataScehma);
+module.exports = { users, data, contactus, simulationData };

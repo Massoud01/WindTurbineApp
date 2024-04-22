@@ -1,5 +1,5 @@
 const express = require("express");
-const { users, data,contactus } = require("./data");
+const { users, data, contactus, simulationData } = require("./data");
 
 const cors = require("cors");
 const app = express();
@@ -11,10 +11,39 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 app.post("/update_data", (req, res) => {
-  const simulationData = req.body.simulation_data;
-  console.log("Received simulation data:", simulationData);
+  console.log("API called");
+  const hi = req.body.simulation_data;
+  console.log("Received simulation data:", hi);
 
-  res.sendStatus(200);
+  // Accessing the P data from the request body
+  const P_data = JSON.parse(hi);
+  let P = P_data.P;
+  console.log("Received P data:", P);
+
+  // Create a new instance of SimulationData model
+  const simulationDataInstance = new simulationData({ P: P });
+
+  // Save the instance to the database
+  simulationDataInstance
+    .save()
+    .then(() => {
+      console.log("Simulation data saved.");
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error("Error saving simulation data:", err);
+      res.sendStatus(500);
+    });
+});
+app.get("/get_data", (req, res) => {
+  simulationData
+    .find({})
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
 app.post("/contactus", cors(), async (req, res) => {
