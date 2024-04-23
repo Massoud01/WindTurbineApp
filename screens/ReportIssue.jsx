@@ -17,7 +17,7 @@ const ReportIssue = ({ navigation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://192.168.1.103:5000/contactus", {
+    const response = await axios.post("http://192.168.1.102:5000/contactus", {
       name,
       email,
       phonenumber,

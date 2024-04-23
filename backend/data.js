@@ -8,6 +8,14 @@ const SimulationDataScehma = new mongoose.Schema({
   P: [Number],
 });
 
+const VBRSchema= new mongoose.Schema({
+  VBR: [Number],
+});
+
+const VChargeSchema= new mongoose.Schema({
+  VCharge:[]
+});
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -68,4 +76,6 @@ const users = mongoose.model("windturbineusers", userSchema);
 const data = mongoose.model("windData", dataSchema);
 const contactus = mongoose.model("contactus", contactusSchema);
 const simulationData = mongoose.model("simulationData", SimulationDataScehma);
-module.exports = { users, data, contactus, simulationData };
+const VBR = mongoose.model("VBR", VBRSchema);
+const VCharge = mongoose.model("VCharge", VChargeSchema);
+module.exports = { users, data, contactus, simulationData, VBR, VCharge};

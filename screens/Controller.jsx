@@ -7,9 +7,37 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 const Controller = () => {
   const [Pdata, setPdata] = useState(null);
   const [maxP, setMaxP] = useState(0);
+  const [maxVbr, setMaxVbr] = useState(0);
+  const [maxVcharge, setMaxVcharge] = useState(0);
 
   useEffect(() => {
-    fetch("http://192.168.1.105:5000/get_data")
+    fetch("http://192.168.1.102:5000/get_vcharge_data")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          let vchargeData = data[0].VCharge;
+          setMaxVcharge(Math.max(...vchargeData)); // set the maximum value of vcharge
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    // Fetch vbr data
+    fetch("http://192.168.1.102:5000/get_vbr_data")
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        if (data.length > 0) {
+          let vbrData = data[0].VBR;
+          //console.log(vbrData);
+          setMaxVbr(Math.max(...vbrData)); // set the maximum value of vbr
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    fetch("http://192.168.1.102:5000/get_data")
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -38,7 +66,7 @@ const Controller = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         {Pdata && (
           <>
@@ -46,6 +74,8 @@ const Controller = () => {
               data={Pdata}
               width={Dimensions.get("window").width} // from react-native
               height={220}
+              withInnerLines={false}
+              //withOuterLines={false}
               chartConfig={{
                 backgroundColor: "#fff",
                 backgroundGradientFrom: "#fff",
@@ -67,28 +97,104 @@ const Controller = () => {
                 borderRadius: 16,
               }}
             />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <AnimatedCircularProgress
+                size={150}
+                width={20}
+                fill={(maxP / 20000) * 100} // assuming the maximum possible value of P is 100
+                tintColor="#00e0ff"
+                onAnimationComplete={() => console.log("onAnimationComplete")}
+                backgroundColor="#3090c9"
+              >
+                {(fill) => (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        color: "#3090e9",
+                        textAlign: "center",
+                        fontFamily: "PoppinsBoldItalic",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Power
+                      <Icon name="electric-bolt" size={24} color="#000" />
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        color: "#3090c9",
+                        fontFamily: "Poppins_400Regular",
+                      }}
+                    >
+                      {maxP.toFixed(2)} W
+                    </Text>
+                  </View>
+                )}
+              </AnimatedCircularProgress>
+              <AnimatedCircularProgress
+                size={150}
+                width={20}
+                fill={(maxVcharge / 450) * 100}
+                tintColor="#00e0ff"
+                onAnimationComplete={() => console.log("onAnimationComplete")}
+                backgroundColor="#3090c9"
+                style={{ marginLeft: 110 }}
+              >
+                {(fill) => (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "#3090e9",
+                        textAlign: "center",
+                        fontFamily: "PoppinsBoldItalic",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {" "}
+                      VCharge
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        color: "#3090c9",
+                        fontFamily: "Poppins_400Regular",
+                      }}
+                    >
+                      {maxVcharge.toFixed(2)} V
+                    </Text>
+                  </View>
+                )}
+              </AnimatedCircularProgress>
+            </View>
             <AnimatedCircularProgress
               size={150}
               width={20}
-              fill={(maxP / 20000) * 100} // assuming the maximum possible value of P is 100
+              fill={(maxVcharge / 450) * 100}
               tintColor="#00e0ff"
               onAnimationComplete={() => console.log("onAnimationComplete")}
               backgroundColor="#3090c9"
+              style={{ marginLeft: 110 }}
             >
               {(fill) => (
                 <View>
                   <Text
                     style={{
-                      fontSize: 25,
+                      fontSize: 20,
                       color: "#3090e9",
                       textAlign: "center",
                       fontFamily: "PoppinsBoldItalic",
                       fontWeight: "bold",
                     }}
                   >
-                    Power
-                    <Icon name="electric-bolt" size={24} color="#000" />
+                    {" "}
+                    Vbrakes
                   </Text>
+
                   <Text
                     style={{
                       fontSize: 18,
@@ -96,7 +202,7 @@ const Controller = () => {
                       fontFamily: "Poppins_400Regular",
                     }}
                   >
-                    {maxP.toFixed(2)} W
+                    {maxVbr.toFixed(2)} V
                   </Text>
                 </View>
               )}

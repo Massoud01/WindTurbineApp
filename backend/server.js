@@ -1,5 +1,5 @@
 const express = require("express");
-const { users, data, contactus, simulationData } = require("./data");
+const { users, data, contactus, simulationData,VBR,VCharge } = require("./data");
 
 const cors = require("cors");
 const app = express();
@@ -10,14 +10,55 @@ const saltRounds = 10;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+app.post("/update_data_VCHARGE", (req, res) => {
+  console.log("API called");
+  const hi = req.body.simulation_data_VCharge;
+  console.log("Received simulation data:", hi);
+  const P = hi.Vcharge;
+  console.log("Received vCHARGE data:", P);
+  const simulationDataInstance = new VCharge({ VCharge: P });
+  simulationDataInstance
+    .save()
+    .then(() => {
+      console.log("VCHARGE Simulation data saved.");
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error("Error saving simulation data:", err);
+      res.sendStatus(500);
+    });
+});
+app.post("/update_data_VBR", (req, res) => {
+  console.log("API called");
+  const hi = req.body.simulation_data_VBR;
+  console.log("Received simulation data:", hi);
+
+  // Accessing the P data from the request body directly
+  const P = hi.VBR;
+  console.log("Received P data:", P);
+
+  // Create a new instance of SimulationData model
+  const simulationDataInstance = new VBR({ VBR: P });
+
+  // Save the instance to the database
+  simulationDataInstance
+    .save()
+    .then(() => {
+      console.log("Simulation data saved.");
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error("Error saving simulation data:", err);
+      res.sendStatus(500);
+    });
+});
 app.post("/update_data", (req, res) => {
   console.log("API called");
   const hi = req.body.simulation_data;
   console.log("Received simulation data:", hi);
 
-  // Accessing the P data from the request body
-  const P_data = JSON.parse(hi);
-  let P = P_data.P;
+  // Accessing the P data from the request body directly
+  const P = hi.P;
   console.log("Received P data:", P);
 
   // Create a new instance of SimulationData model
@@ -35,6 +76,7 @@ app.post("/update_data", (req, res) => {
       res.sendStatus(500);
     });
 });
+
 app.get("/get_data", (req, res) => {
   simulationData
     .find({})
@@ -45,7 +87,29 @@ app.get("/get_data", (req, res) => {
       res.status(500).send(err);
     });
 });
+// Endpoint for vbr collection
+app.get("/get_vbr_data", (req, res) => {
+  VBR
+    .find({})
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
 
+// Endpoint for vcharge collection
+app.get("/get_vcharge_data", (req, res) => {
+  VCharge
+    .find({})
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+});
 app.post("/contactus", cors(), async (req, res) => {
   try {
     const { name, email, phonenumber, query } = req.body;

@@ -36,7 +36,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.103:5000/user", {
+      const response = await axios.get("http://192.168.1.102:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
