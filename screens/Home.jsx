@@ -25,7 +25,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       console.log(token);
-      const response = await axios.get("http://192.168.1.102:5000/user", {
+      const response = await axios.get("http://192.168.1.109:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -87,7 +87,7 @@ const Home = () => {
       date: new Date(`${year}-${month}-${day}`), // Date format: YYYY-MM-DD
     };
     try {
-      const response = await fetch("http://192.168.1.102:5000/save-data", {
+      const response = await fetch("http://192.168.1.109:5000/save-data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

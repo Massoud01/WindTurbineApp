@@ -3,6 +3,9 @@ import { View, StyleSheet, SafeAreaView, Dimensions, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { FontAwesome5 } from '@expo/vector-icons'; // Import FontAwesome5 for battery icon
+import { MaterialCommunityIcons } from '@expo/vector-icons'; // Import MaterialCommunityIcons for brakes icon
+
 
 const Controller = () => {
   const [Pdata, setPdata] = useState(null);
@@ -11,7 +14,7 @@ const Controller = () => {
   const [maxVcharge, setMaxVcharge] = useState(0);
 
   useEffect(() => {
-    fetch("http://192.168.1.102:5000/get_vcharge_data")
+    fetch("http://192.168.1.109:5000/get_vcharge_data")
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -24,20 +27,19 @@ const Controller = () => {
       });
 
     // Fetch vbr data
-    fetch("http://192.168.1.102:5000/get_vbr_data")
+    fetch("http://192.168.1.109:5000/get_vbr_data")
       .then((response) => response.json())
       .then((data) => {
-        //console.log(data);
         if (data.length > 0) {
           let vbrData = data[0].VBR;
-          //console.log(vbrData);
           setMaxVbr(Math.max(...vbrData)); // set the maximum value of vbr
         }
       })
       .catch((error) => {
         console.error(error);
       });
-    fetch("http://192.168.1.102:5000/get_data")
+
+    fetch("http://192.168.1.109:5000/get_data")
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -67,14 +69,16 @@ const Controller = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Text style={styles.title}>Controller</Text>
       <View style={styles.container}>
         {Pdata && (
           <>
             <LineChart
               data={Pdata}
               width={Dimensions.get("window").width} // from react-native
-              height={220}
+              height={260} // Increased height of the chart
               withInnerLines={false}
+              yAxisSuffix="W"
               //withOuterLines={false}
               chartConfig={{
                 backgroundColor: "#fff",
@@ -93,120 +97,63 @@ const Controller = () => {
               bezier
               withDots={false}
               style={{
-                marginVertical: 8,
+                marginVertical: 12, // Increased margin
                 borderRadius: 16,
               }}
             />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-around" }}
-            >
+            <View style={styles.circularContainer}>
               <AnimatedCircularProgress
-                size={150}
-                width={20}
+                size={110}
+                width={10}
                 fill={(maxP / 20000) * 100} // assuming the maximum possible value of P is 100
                 tintColor="#00e0ff"
                 onAnimationComplete={() => console.log("onAnimationComplete")}
                 backgroundColor="#3090c9"
+                style={styles.circularProgress}
               >
                 {(fill) => (
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 25,
-                        color: "#3090e9",
-                        textAlign: "center",
-                        fontFamily: "PoppinsBoldItalic",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Power
-                      <Icon name="electric-bolt" size={24} color="#000" />
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: "#3090c9",
-                        fontFamily: "Poppins_400Regular",
-                      }}
-                    >
-                      {maxP.toFixed(2)} W
-                    </Text>
+                  <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.circularText}>Power</Text>
+                    <Icon name="electric-bolt" size={24} color="#3090c9" />
+                    <Text style={styles.circularValue}>{maxP.toFixed(2)} W</Text>
                   </View>
                 )}
               </AnimatedCircularProgress>
               <AnimatedCircularProgress
-                size={150}
-                width={20}
+                size={110}
+                width={10}
                 fill={(maxVcharge / 450) * 100}
                 tintColor="#00e0ff"
                 onAnimationComplete={() => console.log("onAnimationComplete")}
                 backgroundColor="#3090c9"
-                style={{ marginLeft: 110 }}
+                style={styles.circularProgress}
               >
                 {(fill) => (
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: "#3090e9",
-                        textAlign: "center",
-                        fontFamily: "PoppinsBoldItalic",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {" "}
-                      VCharge
-                    </Text>
-
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: "#3090c9",
-                        fontFamily: "Poppins_400Regular",
-                      }}
-                    >
-                      {maxVcharge.toFixed(2)} V
-                    </Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.circularText}>VCharge</Text>
+                    <FontAwesome5 name="battery-full" size={24} color="#3090c9" />
+                    <Text style={styles.circularValue}>{maxVcharge.toFixed(2)} V</Text>
+                  </View>
+                )}
+              </AnimatedCircularProgress>
+              <AnimatedCircularProgress
+                size={110}
+                width={10}
+                fill={(maxVbr / 450) * 100}
+                tintColor="#00e0ff"
+                onAnimationComplete={() => console.log("onAnimationComplete")}
+                backgroundColor="#3090c9"
+                style={styles.circularProgress}
+              >
+                {(fill) => (
+                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.circularText}>VBrakes</Text>
+                    <MaterialCommunityIcons name="car-brake-alert" size={24} color="#3090c9" />
+                    <Text style={styles.circularValue}>{maxVbr.toFixed(2)} V</Text>
                   </View>
                 )}
               </AnimatedCircularProgress>
             </View>
-            <AnimatedCircularProgress
-              size={150}
-              width={20}
-              fill={(maxVcharge / 450) * 100}
-              tintColor="#00e0ff"
-              onAnimationComplete={() => console.log("onAnimationComplete")}
-              backgroundColor="#3090c9"
-              style={{ marginLeft: 110 }}
-            >
-              {(fill) => (
-                <View>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      color: "#3090e9",
-                      textAlign: "center",
-                      fontFamily: "PoppinsBoldItalic",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {" "}
-                    Vbrakes
-                  </Text>
-
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: "#3090c9",
-                      fontFamily: "Poppins_400Regular",
-                    }}
-                  >
-                    {maxVbr.toFixed(2)} V
-                  </Text>
-                </View>
-              )}
-            </AnimatedCircularProgress>
           </>
         )}
       </View>
@@ -217,9 +164,40 @@ const Controller = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "top",
-    alignItems: "top",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#fff",
+  },
+  title: {
+    marginTop: 0,
+    fontFamily: "Poppins_400Regular",
+    marginVertical: 10,
+    fontSize: 24,
+    textAlign: "center",
+    color: "#3090e9",
+  },
+  circularContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  circularText: {
+    fontSize: 16,
+    color: "#3090e9",
+    textAlign: "center",
+    fontFamily: "PoppinsBoldItalic",
+    fontWeight: "bold",
+  },
+  circularValue: {
+    fontSize: 14,
+    color: "#3090c9",
+    fontFamily: "Poppins_400Regular",
+    textAlign: "center",
+  },
+  circularProgress: {
+    marginLeft: 20, // Increased space between circular progress components
+    marginRight: 20,
   },
 });
 

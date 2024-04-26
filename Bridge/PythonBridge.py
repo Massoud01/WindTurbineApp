@@ -21,10 +21,6 @@ try:
         
         simulation_data = {
     'P': [float(x[0]) for x in P],
-    #'t': [float(x[0]) for x in t],
-    #'VBR': [float(x[0]) for x in VBR],
-    #'Vcharge': [float(x[0]) for x in Vcharge],
-    #'Vterre': [float(x[0]) for x in Vterre]
         }
         VBR_data={
             'VBR': [float(x[0]) for x in VBR],

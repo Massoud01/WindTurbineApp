@@ -80,6 +80,9 @@ app.post("/update_data", (req, res) => {
 app.get("/get_data", (req, res) => {
   simulationData
     .find({})
+    .sort({ _id: -1 })
+    .limit(1)
+
     .then((data) => {
       res.status(200).send(data);
     })
@@ -91,6 +94,8 @@ app.get("/get_data", (req, res) => {
 app.get("/get_vbr_data", (req, res) => {
   VBR
     .find({})
+    .sort({ _id: -1 })
+    .limit(1)
     .then((data) => {
       res.status(200).send(data);
     })
@@ -103,6 +108,8 @@ app.get("/get_vbr_data", (req, res) => {
 app.get("/get_vcharge_data", (req, res) => {
   VCharge
     .find({})
+    .sort({ _id: -1 })
+    .limit(1)
     .then((data) => {
       res.status(200).send(data);
     })

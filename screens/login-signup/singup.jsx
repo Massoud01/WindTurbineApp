@@ -61,7 +61,7 @@ function Signup() {
       );
 
       await axios
-        .post("http://192.168.1.102:5000/signup", {
+        .post("http://192.168.1.109:5000/signup", {
           email,
           firstName,
           lastName,

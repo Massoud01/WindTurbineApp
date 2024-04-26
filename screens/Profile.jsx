@@ -12,10 +12,11 @@ import {
 } from "react-native";
 import axios from "axios";
 import FeatherIcon from "react-native-vector-icons/Feather";
+
 const Profile = ({ user }) => {
   const [form, setForm] = useState({
-    emailNotifications: true,
-    pushNotifications: false,
+    brakesNotifications: true,
+    heaterNotifications: false,
   });
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -23,8 +24,8 @@ const Profile = ({ user }) => {
   const [email, setEmail] = useState("");
   const [token, setToken] = useState(null);
   const [role, setRole] = useState("");
-  const [emailNotifications, setEmailNotifications] = useState(false);
-  const [pushNotifications, setPushNotifications] = useState(false);
+  const [brakesNotifications, setBrakesNotifications] = useState(true); // Separate state for brakes switch
+  const [heaterNotifications, setHeaterNotifications] = useState(false); // Separate state for heater switch
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -36,7 +37,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.102:5000/user", {
+      const response = await axios.get("http://192.168.1.109:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -135,11 +136,9 @@ const Profile = ({ user }) => {
                   <View style={styles.rowSpacer} />
 
                   <Switch
-                    onValueChange={(pushNotifications) =>
-                      setForm({ ...form, pushNotifications })
-                    }
+                    onValueChange={(value) => setHeaterNotifications(value)}
                     style={{ transform: [{ scaleX: 0.95 }, { scaleY: 0.95 }] }}
-                    value={form.pushNotifications}
+                    value={heaterNotifications}
                   />
                 </View>
                 <View style={styles.row}>
@@ -148,11 +147,9 @@ const Profile = ({ user }) => {
                   <View style={styles.rowSpacer} />
 
                   <Switch
-                    onValueChange={(pushNotifications) =>
-                      setForm({ ...form, pushNotifications })
-                    }
+                    onValueChange={(value) => setBrakesNotifications(value)}
                     style={{ transform: [{ scaleX: 0.95 }, { scaleY: 0.95 }] }}
-                    value={form.pushNotifications}
+                    value={brakesNotifications}
                   />
                 </View>
               </View>
@@ -299,4 +296,5 @@ const styles = StyleSheet.create({
     color: "#dc2626",
   },
 });
+
 export default Profile;
