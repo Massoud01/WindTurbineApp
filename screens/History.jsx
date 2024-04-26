@@ -10,12 +10,13 @@ const History = () => {
   const [windSpeeds, setWindSpeeds] = useState([]);
   const [averageSpeed, setAverageSpeed] = useState(0);
   const [highestSpeed, setHighestSpeed] = useState(0);
+  const [averageFillup, setAverageFillup] = useState(0);
 
   useEffect(() => {
     const fetchWindSpeeds = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.1.109:5000/wind-speeds"
+          "http://192.168.1.103:5000/wind-speeds"
         );
         const validData = response.data.filter(
           (item) => typeof item.speed === "number" && item.date
@@ -23,9 +24,11 @@ const History = () => {
         const averageSpeed =
           validData.reduce((total, item) => total + item.speed, 0) /
           validData.length;
+        const maxSpeed = Math.max(...validData.map((item) => item.speed));
         setAverageSpeed(averageSpeed);
-        setHighestSpeed(Math.max(...validData.map((item) => item.speed)));
+        setHighestSpeed(maxSpeed);
         setWindSpeeds(validData);
+        setAverageFillup((averageSpeed * 100) / maxSpeed);
       } catch (e) {
         console.error(e);
       }
@@ -103,7 +106,7 @@ const History = () => {
         <AnimatedCircularProgress
           size={120}
           width={8}
-          fill={(averageSpeed * 100) / highestSpeed} // Fill based on the percentage of average speed relative to highest speed
+          fill={averageFillup}
           tintColor="#00e0ff"
           onAnimationComplete={() => console.log("onAnimationComplete")}
           backgroundColor="#3090c9"

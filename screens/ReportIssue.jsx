@@ -17,7 +17,7 @@ const ReportIssue = ({ navigation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://192.168.1.109:5000/contactus", {
+    const response = await axios.post("http://192.168.1.103:5000/contactus", {
       name,
       email,
       phonenumber,
@@ -46,12 +46,12 @@ const ReportIssue = ({ navigation }) => {
           value={name}
           placeholder="Name"
         />
-        <Text style={styles.text}>Email Address*</Text>
+        <Text style={styles.text}>Last Name*</Text>
         <TextInput
           style={styles.formInput}
           onChangeText={(text) => setEmail(text)}
           value={email}
-          placeholder="Insert email here"
+          placeholder="Insert Last here"
         />
         <Text style={styles.text}>Phone Number*</Text>
         <TextInput
@@ -89,16 +89,15 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center", // Center horizontally
     marginBottom: 10,
   },
   headerTitle: {
-    fontSize: 19,
-    textAlign:"center",
-    marginTop: 50,
+    fontSize: 24,
     fontWeight: "600",
-    color: "black",
+    color: "#3090e9", // Change text color here
     fontFamily: "Poppins_400Regular",
+    marginTop: 20,
   },
   text: {
     fontSize: 16,
@@ -115,16 +114,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     backgroundColor: "#fff",
-  },
-  formButton: {
-    backgroundColor: "#3090C7",
-    color: "#fff",
-    fontWeight: "600",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    fontSize: 18,
-    borderRadius: 15,
-    textAlign: "center",
   },
   formButton: {
     backgroundColor: "#3090C7",

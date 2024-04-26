@@ -18,7 +18,8 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
   async function signup(e) {
     e.preventDefault();
@@ -40,9 +41,9 @@ function Signup() {
       return;
     }
     if (!passwordRegex.test(password)) {
-      Alert.alert('Password must contain at least 8 characters and a number');
+      Alert.alert("Password must contain at least 8 characters and a number");
       return;
-   }
+    }
 
     if (password !== password1) {
       Alert.alert("Passwords do not match, Please Renconfirm Password");
@@ -61,7 +62,7 @@ function Signup() {
       );
 
       await axios
-        .post("http://192.168.1.109:5000/signup", {
+        .post("http://192.168.1.103:5000/signup", {
           email,
           firstName,
           lastName,

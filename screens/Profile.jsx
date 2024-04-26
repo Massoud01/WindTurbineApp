@@ -37,7 +37,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.109:5000/user", {
+      const response = await axios.get("http://192.168.1.103:5000/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 19,
     fontWeight: "600",
-    color: "black",
+    color: "#3090e9",
     fontFamily: "Poppins_400Regular",
   },
   content: {

@@ -40,6 +40,8 @@ const Welcome = ({ navigation }) => {
     <LinearGradient
       style={{
         flex: 1,
+        justifyContent: "center",
+        alignContent: "center",
       }}
       colors={[COLORS.secondary, COLORS.primary]}
     >
