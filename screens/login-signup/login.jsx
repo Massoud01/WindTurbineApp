@@ -6,6 +6,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useFonts, Poppins_400Regular } from "@expo-google-fonts/poppins";
 import { TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ip} from "../../config";
+console.log(ip);
 
 function Login() {
   const navigation = useNavigation();
@@ -36,7 +38,7 @@ function Login() {
       return;
     }
     try {
-      const response = await axios.post("http://192.168.1.103:5000/login", {
+      const response = await axios.post(`http://${ip}:5000/login`, {
         email,
         password,
       });
@@ -47,7 +49,7 @@ function Login() {
         AsyncStorage.setItem("token", token);
         console.log(token);
         console.log(response.data);
-        Alert.alert(`Welcome ${response.data.firstName}!`);
+        //Alert.alert(`Welcome ${response.data.firstName}!`);
         navigation.navigate("HomeStack");
       } else if (response.data === "notexist") {
         Alert.alert("User has not signed up yet");

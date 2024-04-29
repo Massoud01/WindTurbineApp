@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LottieView from "lottie-react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import {ip} from "../config";
 const COLORS = {
   white: "#FFFFFF",
   black: "#222222",
@@ -25,7 +26,7 @@ const Home = () => {
   const getUser = async () => {
     try {
       console.log(token);
-      const response = await axios.get("http://192.168.1.103:5000/user", {
+      const response = await axios.get(`http://${ip}:5000/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -87,7 +88,7 @@ const Home = () => {
       date: new Date(`${year}-${month}-${day}`), // Date format: YYYY-MM-DD
     };
     try {
-      const response = await fetch("http://192.168.1.103:5000/save-data", {
+      const response = await fetch(`http://${ip}:5000/save-data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

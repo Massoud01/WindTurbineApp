@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import FeatherIcon from "react-native-vector-icons/Feather";
-
+import {ip} from "../config";
 const Profile = ({ user }) => {
   const [form, setForm] = useState({
     brakesNotifications: true,
@@ -37,7 +37,7 @@ const Profile = ({ user }) => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("http://192.168.1.103:5000/user", {
+      const response = await axios.get(`http://${ip}:5000/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

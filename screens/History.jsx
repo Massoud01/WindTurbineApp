@@ -5,6 +5,7 @@ import { LineChart } from "react-native-chart-kit";
 import { LinearGradient } from "expo-linear-gradient";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {ip} from "../config";
 
 const History = () => {
   const [windSpeeds, setWindSpeeds] = useState([]);
@@ -16,7 +17,7 @@ const History = () => {
     const fetchWindSpeeds = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.1.103:5000/wind-speeds"
+          `http://${ip}:5000/wind-speeds`
         );
         const validData = response.data.filter(
           (item) => typeof item.speed === "number" && item.date

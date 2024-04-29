@@ -5,6 +5,7 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { FontAwesome5 } from "@expo/vector-icons"; // Import FontAwesome5 for battery icon
 import { MaterialCommunityIcons } from "@expo/vector-icons"; // Import MaterialCommunityIcons for brakes icon
+import {ip} from "../config";
 
 const Controller = () => {
   const [Pdata, setPdata] = useState(null);
@@ -13,7 +14,7 @@ const Controller = () => {
   const [maxVcharge, setMaxVcharge] = useState(0);
 
   useEffect(() => {
-    fetch("http://192.168.1.103:5000/get_vcharge_data")
+    fetch(`http://${ip}:5000/get_vcharge_data`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -26,7 +27,7 @@ const Controller = () => {
       });
 
     // Fetch vbr data
-    fetch("http://192.168.1.103:5000/get_vbr_data")
+    fetch(`http://${ip}:5000/get_vbr_data`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
@@ -38,7 +39,7 @@ const Controller = () => {
         console.error(error);
       });
 
-    fetch("http://192.168.1.103:5000/get_data")
+    fetch(`http://${ip}:5000/get_data`)
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {

@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import axios from "axios";
+import {ip} from "../config";
 
 const ReportIssue = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ const ReportIssue = ({ navigation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://192.168.1.103:5000/contactus", {
+    const response = await axios.post(`http://${ip}:5000/contactus`, {
       name,
       email,
       phonenumber,
